@@ -1,0 +1,5 @@
+---
+alertmanager_config_dir: /etc/alertmanager
+alertmanager_slack_webhook_url: "{{ lookup('ansible.builtin.env', 'SLACK_WEBHOOK_URL') }}"
+alertmanager_slack_channel: "#devops-alerts"
+alertmanager_slack_username: "Alertmanager"

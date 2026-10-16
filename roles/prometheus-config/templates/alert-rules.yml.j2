@@ -1,0 +1,34 @@
+groups:
+  - name: kubernetes-platform-alerts
+    rules:
+      - alert: HighNodeCPUUsage
+        expr: 100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on node {{ "{{" }} $labels.instance {{ "}}" }}"
+          description: "Node CPU usage has exceeded 85% for 5 minutes."
+
+      - alert: KubernetesPodRestarts
+        expr: increase(kube_pod_container_status_restarts_total[10m]) > 3
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container restart increase detected"
+          description: "A container has restarted more than 3 times in 10 minutes."
+
+      - alert: HighHTTPErrorRate
+        expr: |
+          (
+            sum by (service) (rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            clamp_min(sum by (service) (rate(http_requests_total[5m])), 0.001)
+          ) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High HTTP 5xx error rate"
+          description: "HTTP 5xx errors exceed 5% of requests for 5 minutes."

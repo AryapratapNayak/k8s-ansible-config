@@ -1,0 +1,16 @@
+---
+- name: Configure Kubernetes worker nodes
+  hosts: kubernetes_workers
+  become: true
+  gather_facts: true
+  roles:
+    - node-setup
+    - node-exporter
+
+- name: Configure Prometheus and Alertmanager hosts
+  hosts: monitoring_servers
+  become: true
+  gather_facts: true
+  roles:
+    - prometheus-config
+    - alertmanager-config

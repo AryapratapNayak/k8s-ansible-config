@@ -1,0 +1,5 @@
+---
+prometheus_config_dir: /etc/prometheus
+prometheus_scrape_targets:
+  - "127.0.0.1:9100"
+prometheus_alert_rules_file: alert-rules.yml

@@ -1,0 +1,4 @@
+---
+- name: Reload Prometheus
+  ansible.builtin.debug:
+    msg: "Prometheus configuration changed. Reload or restart Prometheus using the deployment-specific service handler."
